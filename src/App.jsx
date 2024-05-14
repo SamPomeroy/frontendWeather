@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import Main from './components/Main/Main'
+import Home from './components/Home/Home'
 import './App.css'
 import Header from './components/Header/Header'
 import { ToastContainer } from 'react-toastify'
+import 'react-toastify/ReactToastify.css'
 
 
 
@@ -12,7 +13,7 @@ export class App extends Component {
       <div className='app'>
         <ToastContainer position='top-center'/>
         <Header/>
-        <Main/>
+        <Home/>
       </div>
     )
   }

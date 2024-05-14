@@ -6,7 +6,7 @@ export class Weather extends Component {
   
   render() {
     const {description, country, location, temperature, _id} = this.props.weather
-    const {handleOnDelete, handleWDisplay} = this.props
+    const {handleOnDelete, handleDisplay} = this.props
     return (
       <div className='weather-div'>
         {

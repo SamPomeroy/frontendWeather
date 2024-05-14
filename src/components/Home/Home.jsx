@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import './Main.css'
+import './Home.css'
 import axios from 'axios'
 import Weather from '../Weather/Weather'
 import {toast} from 'react-toastify'
-import 'react-toastify/ReactToastify.css'
 
-export class Main extends Component {
+
+export class Home extends Component {
     state = {
         localeInput: "",
         weatherList: [],
@@ -13,9 +13,9 @@ export class Main extends Component {
         displayHidden: true
     }
 
-    async ComponentDidMount(){
+    async componentDidMount(){
         try {
-            const allLocales = await axios.get("http://localhost:3001/weather/get-all-searched-locations")
+            const allLocales = await axios.get("http://localhost:3000/weather/get-all-searched-locations")
             console.log(allLocales);
             this.setState({weatherList: allLocales.data.payload})
         } catch (error) {
@@ -34,7 +34,7 @@ export class Main extends Component {
         event.preventDefault()
         try {
             if(this.state.localeInput !== ""){
-                let currentWeather = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.state.localeInput}&appid={import.meta.env.VITE_API_KEY}&units=imperial`)
+                let currentWeather = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.state.localeInput}&appid=${import.meta.env.VITE_API_KEY}&units=imperial`)
                 let weatherDisplay = await axios.post('http://localhost:3000/weather/add-location', {
                     location: currentWeather.data.name,
                     country: currentWeather.data.sys.country,
@@ -51,7 +51,7 @@ export class Main extends Component {
                 
             }
         } catch (error) {
-            toast.error('Please enter valid city')
+            toast.error(error.message)
         }
         this.setState({
             localeInput: ''
@@ -75,10 +75,11 @@ export class Main extends Component {
 
 
   render() {
+    return(
     <div className='outer-container'>
     <div className="form-container">
         <form onSubmit={this.handleOnSubmit} className="form">
-            <input onChange={this.handleOnChange} value={this.state.localeInput} placeholder='City name' type="text" name="city" id="city" />
+            <input onChange={this.handleOnChange} value={this.state.localeInput} placeholder='City name' type='text' name="city" id="city" />
             <button type="submit">Search City</button>
         </form>
     </div>
@@ -99,8 +100,9 @@ export class Main extends Component {
         <p>{this.state.weatherDisplayed.description}</p>
     </div>
   </div>
+    )
+}
 
 }
-}
 
-export default Main
+export default Home
